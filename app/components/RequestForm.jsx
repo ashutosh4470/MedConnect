@@ -1,17 +1,20 @@
 'use client';
 import { useState } from 'react';
+import { useSnackbar } from 'notistack';
+
 
 export default function RequestForm() {
   const [medicineName, setMedicineName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [storeName, setStoreName] = useState('');
   const [note, setNote] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('/api/request', {
+      const res = await fetch('/api/auth/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ medicineName, quantity, storeName, note }),
@@ -19,14 +22,14 @@ export default function RequestForm() {
 
       const data = await res.json();
       if (res.ok) {
-        alert('Request sent successfully');
-        // Reset fields
+        enqueueSnackbar('Request sent successfully!', { variant: 'success' });
         setMedicineName('');
         setQuantity('');
         setStoreName('');
         setNote('');
       } else {
-        alert(data.message || 'Request failed');
+        enqueueSnackbar('Failed to sent Request!', { variant: 'error' });
+        console.error(data.message || 'Request failed');
       }
     } catch (err) {
       console.error('Request error:', err);

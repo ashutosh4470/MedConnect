@@ -1,14 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { useSnackbar } from 'notistack';
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
@@ -17,24 +21,25 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await res.json();
-  
+
       if (!res.ok) {
         throw new Error(data.message || 'Login failed');
       }
-  
+
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('name', data.user?.name || 'User'); // optional
-  
-      alert('Login successful!');
-      window.location.href = '/'; // Redirect to homepage
+      enqueueSnackbar('Login successful!', { variant: 'success' });
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
     } catch (err) {
       console.error('Login Error:', err);
       alert(err.message);
     }
   };
-  
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-50 px-4">

@@ -1,10 +1,13 @@
 'use client';
 import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -26,10 +29,12 @@ export default function RegisterPage() {
     if (!res.ok) {
       alert(`Error: ${data.error}`);
     } else {
-      alert('Registered successfully!');      
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('name', data.user?.name || 'User');
-      window.location.href = '/'; 
+      enqueueSnackbar('Registered successful!', { variant: 'success' });
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000); 
     }
   };
   
