@@ -18,7 +18,11 @@ export default function RequestPage() {
           <RequestForm />
         </div>
       )}
-      <RequestCard />
+      {viewOnly && (
+        <div className="mb-10">
+          <RequestCard />
+        </div>
+      )}
     </div>
   );
 }
