@@ -31,7 +31,6 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/dashboard', label: 'Dashboard' },
-    { href: '/request', label: 'Requests' },
   ];
 
   return (

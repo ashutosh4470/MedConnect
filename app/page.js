@@ -77,7 +77,7 @@ export default function Home() {
           animate={{ y: [0, -15, 0], rotate: [0, 15, -15, 0] }}
           transition={{ repeat: Infinity, duration: 3 }}
         >
-          🎉
+          <img src='./pills.png' alt='logo' className='h-20'/>
         </motion.div>
         <motion.div
           className="absolute bottom-32 left-1/3 text-4xl"
